@@ -35,7 +35,9 @@ pico_sdk_init()
 
 # Add executable. Default name is the project name, version 0.1
 
-add_executable(pico_bio_sense pico_bio_sense.cpp )
+add_executable(pico_bio_sense 
+                    pico_bio_sense.cpp
+                    mpu6050/mpu6050_i2c.c)
 
 pico_set_program_name(pico_bio_sense "pico_bio_sense")
 pico_set_program_version(pico_bio_sense "0.1")
@@ -51,13 +53,27 @@ target_link_libraries(pico_bio_sense
 # Add the standard include files to the build
 target_include_directories(pico_bio_sense PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
+        ${CMAKE_CURRENT_LIST_DIR}/Pi-Pico-SSD1306-C-Library/src
+        ${CMAKE_CURRENT_LIST_DIR}/Pi-Pico-SSD1306-C-Library/src/lib
+        ${CMAKE_CURRENT_LIST_DIR}/mpu6050
 )
+
+# Build the MAX30102 library
 add_subdirectory(pico_max3010x)
+
+# Build the OLED library
+add_subdirectory(${CMAKE_SOURCE_DIR}/Pi-Pico-SSD1306-C-Library/src/lib/OLED)
+
+# build onewire library
+add_subdirectory(${CMAKE_SOURCE_DIR}/onewire_library)
 
 # Add any user requested libraries
 target_link_libraries(pico_bio_sense 
         hardware_i2c
         pico_max3010x
+        OLED
+        hardware_pio
+        onewire_library
         )
 
 pico_add_extra_outputs(pico_bio_sense)
