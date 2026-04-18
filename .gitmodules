@@ -1,0 +1,3 @@
+[submodule "Pi-Pico-SSD1306-C-Library"]
+	path = Pi-Pico-SSD1306-C-Library
+	url = https://github.com/MR-Addict/Pi-Pico-SSD1306-C-Library.git
